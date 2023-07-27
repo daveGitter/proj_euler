@@ -1,6 +1,8 @@
 """ This volume is for the problems from 1 to 50 """
+import math
 
-def prob01(top: int = 10, div: list[int] = [3, 5]) -> int:
+
+def prob01(top: int, div_list: list[int]) -> int:
     """ Problem 01 - Multiples of 3 or 5
 
     If we list all the natural numbers below 10 that are multiples of 3 or 5,
@@ -8,15 +10,15 @@ def prob01(top: int = 10, div: list[int] = [3, 5]) -> int:
 
     Find the sum of all the multiples of 3 or 5 below 1000.
     """
-    # my note: suppose div always has 2 elements
+    # my note: suppose div_list always has 2 elements
 
     tot = 0
-    lcm = div[0] * div[1]  # Least common multiple
+    lcm = div_list[0] * div_list[1]  # Least common multiple
 
-    for d in div:
-        d_len = (top - 1) // d  # NOT inclusive
+    for div in div_list:
+        d_len = (top - 1) // div  # NOT inclusive
 
-        tot += int(d * (1 + d_len) * d_len / 2)
+        tot += int(div * (1 + d_len) * d_len / 2)
 
     lcm_len = (top - 1) // lcm
     return tot - int(lcm * (1 + lcm_len) * lcm_len / 2)
@@ -32,10 +34,10 @@ def prob02(top: int) -> int:
     By considering the terms in the Fibonacci sequence whose values do not
     exceed four million, find the sum of the even-valued terms.
     """
-    # my note: 
+    # my note:
     # 1. the Fibonacci numbers repeat a pattern as below:
     # odd, odd, even, odd, odd, even, ...
-    # 2. if the Fibonacci series is noted as f1, f2, f3, ..., and from any 
+    # 2. if the Fibonacci series is noted as f1, f2, f3, ..., and from any
     # Fibonacci number fx, picking one number from every 3 numbers, to make
     # a new series noted as g1 = fx, g2 = f(x+3), g3 = f(x+6), ..., then the
     # new series will hold this:
@@ -53,21 +55,38 @@ def prob02(top: int) -> int:
     return tot
 
 
-def prob03(num: int = 600851475143) -> int:
+def prob03(tgt: int) -> int:
     """ Problem 03 - Largest Prime Factor
     
     The prime factors of 13195 are 5, 7, 13 and 29.
     What is the largest prime factor of the number 600851475143?
     """
-    def is_prime(num: int) -> bool:
-        return False
+    if tgt <= 3:
+        return tgt
 
-    pass
+    factors = [1]
+    tgt_curr = tgt
+    factor_try = 2
+    while tgt_curr % factor_try == 0:
+        factors.append(factor_try)
+        tgt_curr = int(tgt_curr / factor_try)
+
+    factor_try = 3
+    while factor_try <= math.ceil(math.sqrt(tgt_curr)):
+        while tgt_curr % factor_try == 0:
+            factors.append(factor_try)
+            tgt_curr = int(tgt_curr / factor_try)
+        factor_try += 2
+    factors.append(tgt_curr)
+
+    return factors[-1]
 
 
 def main():
-    print(f'Answer to problem 01: {prob01(1_000)}')
-    print(f'Answer to problem 02: {prob02(4_000_000)}')
+    """ main funcion """
+    print(f'Answer to problem 01: {prob01(top=1_000, div_list=[3, 5])}')
+    print(f'Answer to problem 02: {prob02(top=4_000_000)}')
+    print(f'Answer to problem 03: {prob03(tgt=600_851_475_143)}')
 
 
 if __name__ == '__main__':
