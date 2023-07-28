@@ -8,7 +8,8 @@ from src.vol01 import prob03
 ANSWER = {
     'prob01': 233168,
     'prob02': 4613732,
-    'prob03': 6857
+    'prob03': 6857,
+    'prob04': 906609,
 }
 
 
@@ -31,3 +32,10 @@ def test_prob03():
     rst = prob03(tgt=600_851_475_143)
 
     assert rst == ANSWER['prob03']
+
+
+def test_prob04():
+    """ test prob04 """
+    rst = prob04(num1_dig=3, num2_dig=3)
+
+    assert rst == ANSWER['prob04']
