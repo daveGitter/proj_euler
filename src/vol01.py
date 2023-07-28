@@ -82,6 +82,41 @@ def prob03(tgt: int) -> int:
     return factors[-1]
 
 
+def prob04(num1_dig: int, num2_dig: int) -> set[int, int, int]:
+    """ Problem 04 - Largest Palindrome Product
+
+    A palindromic number reads the same both ways. The largest palindrome made
+    from the product of two 2-digit numbers is 9009 = 91 * 99.
+
+    Find the largest palindrome made from the product of two 3-digit numbers.
+    """
+    def is_palindromic(num: int) -> bool:
+        num_str = str(num)
+        for pos in range(math.ceil(len(num_str) / 2)):
+            if num_str[pos] != num_str[-1 - pos]:
+                return False
+        return True
+
+    num1_min = 10 ** (num1_dig - 1)
+    num1_max = 10 ** num1_dig - 1
+    num2_min = 10 ** (num2_dig - 1)
+    num2_max = 10 ** num2_dig - 1
+
+    p_rst = num1_rst = num2_rst = 1
+    for num1 in range(num1_max, num1_min - 1, -1):
+        for num2 in range(num2_max, num2_min - 1, -1):
+            p_test = num1 * num2
+            if is_palindromic(p_test):
+                if p_test > p_rst:
+                    p_rst = p_test
+                    num1_rst = num1
+                    num2_rst = num2
+            else:
+                continue
+
+    return (p_rst, num1_rst, num2_rst)
+
+
 def main():
     """ main funcion """
     print(f'Answer to problem 01: {prob01(top=1_000, div_list=[3, 5])}')
