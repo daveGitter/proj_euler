@@ -117,6 +117,43 @@ def prob04(num1_dig: int, num2_dig: int) -> set[int, int, int]:
     return (p_rst, num1_rst, num2_rst)
 
 
+def prob05():
+    """ Problem 05 - Smallest Multiple
+    
+    2520 is the smallest number that can be divided by each of the
+    numbers from 1 to 10 without any remainder.
+
+    What is the smallest positive number that is evenly divisible by
+    all of the numbers from 1 to 20?
+    """
+    pass
+
+
+def prob06(tgt: int) -> int:
+    """ Problem 06 - Sum Square Difference
+
+    The sum of the squares of the first ten natural numbers is,
+    1 ** 2 + 2 ** 2 + ... + 10 ** 2 = 385.
+    The square of the sum of the first ten natural numbers is,
+    (1 + 2 + ... + 10) ** 2 = 55 ** 2 = 3025.
+    Hence the difference between the sum of the squares of the first ten
+    natural numbers and the square of the sum is
+    3025 − 385 = 2640.
+
+    Find the difference between the sum of the squares of the first one
+    hundred natural numbers and the square of the sum.
+    """
+    # Let's express f(n) = 1 ** 2 + 2 ** 2 + ... + n ** 2 in the form of
+    # f(n) = k1 * n ** 3 + k2 * n ** 2 + k3 * n + k4
+    # It can be proven that
+    # f(n) = (2 * n ** 3 + 3 * n ** 2 + n) / 6 = n * (n + 1) * (2 * n + 1) / 6
+
+    sum_of_sq = int(n * (n + 1) * (2 * n + 1) / 6)
+    sq_of_sum = int(((1 + n) * n / 2) ** 2)
+
+    return sq_of_sum - sum_of_sq
+
+
 def main():
     """ main funcion """
     print(f'Answer to problem 01: {prob01(top=1_000, div_list=[3, 5])}')
