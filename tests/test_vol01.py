@@ -10,6 +10,8 @@ ANSWER = {
     'prob02': 4613732,
     'prob03': 6857,
     'prob04': 906609,
+    'prob05': 232792560,
+    'prob06': 25164150,
 }
 
 
@@ -39,3 +41,17 @@ def test_prob04():
     rst = prob04(num1_dig=3, num2_dig=3)
 
     assert rst == ANSWER['prob04']
+
+
+def test_prob05():
+    """ test prob05 """
+    rst = prob05()
+
+    assert rst == ANSWER['prob05']
+
+
+def test_prob06():
+    """ test prob06 """
+    rst = prob06(tgt=100)
+
+    assert rst == ANSWER['prob06']
