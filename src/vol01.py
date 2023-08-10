@@ -117,7 +117,7 @@ def prob04(num1_dig: int, num2_dig: int) -> set[int, int, int]:
     return (p_rst, num1_rst, num2_rst)
 
 
-def prob05():
+def prob05(top: int) -> int:
     """ Problem 05 - Smallest Multiple
     
     2520 is the smallest number that can be divided by each of the
@@ -126,16 +126,46 @@ def prob05():
     What is the smallest positive number that is evenly divisible by
     all of the numbers from 1 to 20?
     """
-    pass
+    # my note: if the given number (top) has prime factors p1, p2, ..., pn,
+    # then the answer will be p1^e1 * p2^e2 *...* pn^en,
+    # where ei = floor(log_pi(top))
+
+    def is_prime(num: int) -> bool:
+        """ checks if a given integer is prime """
+        if not isinstance(num, int) or num < 2:
+            raise ValueError(
+                'Invalid - the number must be an integer larger than 1!')
+        elif num in (2, 3):
+            return True
+        elif num == 4:
+            return False
+        elif not (num + 1) % 6 == 0 and not (num - 1) % 6 == 0:
+            # any prime number larger than 3 must be 6k+1 or 6k-1
+            # (k is a positive integer)
+            return False
+
+        lim = math.ceil(math.sqrt(num))
+        for div in range(2, lim):
+            if num % div == 0:
+                return False
+        return True
+
+    mul = 1
+    for factor in range(2, top + 1):
+        if is_prime(factor):
+            exp = math.floor(math.log10(top) / math.log10(factor))
+            mul *= factor ** exp
+
+    return mul
 
 
 def prob06(tgt: int) -> int:
     """ Problem 06 - Sum Square Difference
 
     The sum of the squares of the first ten natural numbers is,
-    1 ** 2 + 2 ** 2 + ... + 10 ** 2 = 385.
+    1 ^ 2 + 2 ^ 2 + ... + 10 ^ 2 = 385.
     The square of the sum of the first ten natural numbers is,
-    (1 + 2 + ... + 10) ** 2 = 55 ** 2 = 3025.
+    (1 + 2 + ... + 10) ^ 2 = 55 ^ 2 = 3025.
     Hence the difference between the sum of the squares of the first ten
     natural numbers and the square of the sum is
     3025 − 385 = 2640.
@@ -143,22 +173,26 @@ def prob06(tgt: int) -> int:
     Find the difference between the sum of the squares of the first one
     hundred natural numbers and the square of the sum.
     """
-    # Let's express f(n) = 1 ** 2 + 2 ** 2 + ... + n ** 2 in the form of
-    # f(n) = k1 * n ** 3 + k2 * n ** 2 + k3 * n + k4
+    # Let's express f(n) = 1 ^ 2 + 2 ^ 2 + ... + n ^ 2 in the form of
+    # f(n) = k1 * n ^ 3 + k2 * n ^ 2 + k3 * n + k4
     # It can be proven that
-    # f(n) = (2 * n ** 3 + 3 * n ** 2 + n) / 6 = n * (n + 1) * (2 * n + 1) / 6
+    # f(n) = (2 * n ^ 3 + 3 * n ^ 2 + n) / 6 = n * (n + 1) * (2 * n + 1) / 6
 
-    sum_of_sq = int(n * (n + 1) * (2 * n + 1) / 6)
-    sq_of_sum = int(((1 + n) * n / 2) ** 2)
+    sum_of_sq = int(tgt * (tgt + 1) * (2 * tgt + 1) / 6)
+    sq_of_sum = int(((1 + tgt) * tgt / 2) ** 2)
 
     return sq_of_sum - sum_of_sq
 
 
 def main():
     """ main funcion """
-    print(f'Answer to problem 01: {prob01(top=1_000, div_list=[3, 5])}')
-    print(f'Answer to problem 02: {prob02(top=4_000_000)}')
-    print(f'Answer to problem 03: {prob03(tgt=600_851_475_143)}')
+    # print(f'Answer to problem 01: {prob01(top=1_000, div_list=[3, 5])}')
+    # print(f'Answer to problem 02: {prob02(top=4_000_000)}')
+    # print(f'Answer to problem 03: {prob03(tgt=600_851_475_143)}')
+    pal, fac1, fac2 = prob04(num1_dig=3, num2_dig=3)
+    print(f'Answer to problem 04: {pal} = {fac1} * {fac2}')
+    # print(f'Answer to problem 05: {prob05(top=20)}')
+    # print(f'Answer to problem 06: {prob06(tgt=100)}')
 
 
 if __name__ == '__main__':
